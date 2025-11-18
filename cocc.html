@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚨 HACKED - Tải Về Thất Bại 🚨</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Thiết lập font và nền tối cho cảm giác bị lỗi (hacker mode) */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000000; /* Nền đen tuyệt đối */
+            color: #ff00ff; /* Màu hồng neon, màu glitch */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow: hidden; /* Quan trọng để hiệu ứng glitch ko bị tràn */
+        }
+
+        /* Khối chính chứa chữ troll */
+        .glitch-container {
+            position: relative;
+            font-size: 5rem; /* Rất to trên desktop */
+            font-weight: 900;
+            line-height: 1;
+            /* Responsive: Chữ to hơn trên mobile */
+            @media (max-width: 640px) {
+                font-size: 3rem; 
+            }
+        }
+
+        /* --- HIỆU ỨNG GLITCH BẰNG CSS KEYFRAMES --- */
+        
+        /* Hiệu ứng chớp nháy và lệch màu */
+        @keyframes glitch {
+            0% { text-shadow: 2px 0 #ff00ff, -2px 0 #00ffff; }
+            20% { text-shadow: -2px 0 #ff00ff, 2px 0 #00ffff; }
+            40% { text-shadow: 4px 0 #ff00ff, -4px 0 #00ffff; }
+            60% { text-shadow: -4px 0 #ff00ff, 4px 0 #00ffff; }
+            80% { text-shadow: 6px 0 #ff00ff, -6px 0 #00ffff; }
+            100% { text-shadow: 0 0 transparent; } /* Trở lại bình thường */
+        }
+
+        /* Lớp giả tạo hiệu ứng 'bóng ma' glitch (lệch chữ) */
+        .glitch-text::before,
+        .glitch-text::after {
+            content: attr(data-text); /* Lấy nội dung chữ từ thuộc tính data-text */
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Ko cho click vào lớp này */
+            animation: glitch 0.5s infinite alternate; /* Áp dụng hiệu ứng */
+        }
+
+        /* Hiệu ứng màu Cyan (lớp sau) */
+        .glitch-text::before {
+            left: 2px;
+            text-shadow: -2px 0 #00ffff;
+            clip-path: inset(60% 0 0 0); /* Cắt bớt phần chữ để tạo hiệu ứng lệch */
+        }
+        
+        /* Hiệu ứng màu Magenta (lớp trước) */
+        .glitch-text::after {
+            left: -2px;
+            text-shadow: -2px 0 #ff00ff;
+            clip-path: inset(0 0 40% 0); /* Cắt bớt phần chữ để tạo hiệu ứng lệch */
+        }
+        /* --- KẾT THÚC HIỆU ỨNG GLITCH --- */
+        
+        .sub-text {
+            color: #00ff88; /* Xanh lá cây neon */
+            text-shadow: 0 0 10px #00ff88;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="text-center p-4">
+        
+        <!-- Dòng chữ chính, dùng thuộc tính data-text để CSS đọc và tạo hiệu ứng Glitch -->
+        <h1 class="glitch-text glitch-container uppercase" data-text="CÓ CC Á">
+            CÓ CC Á
+        </h1>
+        
+        <p class="sub-text text-xl sm:text-2xl mt-8 animate-pulse">
+            Tất cả những gì m tìm thấy đều là ảo giác.
+        </p>
+        
+        <p class="text-gray-600 text-sm mt-4">
+            (Link tải app/tool đã bị virus ăn ròi nha cu!)
+        </p>
+
+        <!-- Nút quay lại - Dùng để gán link quay lại trang của m -->
+        <div class="mt-12">
+            <a href="http://localhost:9898/Local/datlunok.html?EE68A88A-6F6B-4ED6-BD6C-D8A048CE90C1" class="px-6 py-3 bg-red-600 text-white font-bold tracking-wider rounded-lg shadow-xl hover:bg-red-700 transition duration-300">
+                QUAY LẠI TRANG CHỦ
+            </a>
+        </div>
+
+    </div>
+
+</body>
+</html>
+
