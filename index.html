@@ -441,7 +441,7 @@
                         </div>
                         <div class="text-xs text-amber-400">
                             <i class="fas fa-exclamation-circle mr-1"></i>
-                            Cảnh báo
+                            Revoked
                         </div>
                     </div>
                     
@@ -452,7 +452,599 @@
                     </a>
                 </div>
             </div>
-            
+<!-- ======================================================
+     AI CHAT WIDGET – Groq API
+     Nhét đoạn này vào trước </body> của page bất kỳ là xong
+     ====================================================== -->
+
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet"/>
+
+<style>
+     
+  /* --- Variables & Base Reset --- */
+  #cw-toggle, #cw-popup, #cw-popup * {
+    box-sizing: border-box;
+    font-family: 'Inter', -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  }
+
+  /* --- Chat Toggle Button --- */
+  #cw-toggle {
+    position: fixed;
+    bottom: 28px;
+    left: 28px;
+    z-index: 9999;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    background: linear-gradient(135deg, #3b82f6, #06b6d4);
+    box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    animation: cw-pulse 2.4s ease-out infinite;
+  }
+  #cw-toggle:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 28px rgba(59, 130, 246, 0.6);
+  }
+  #cw-toggle:active {
+    transform: scale(0.95);
+  }
+  #cw-toggle svg {
+    width: 26px;
+    height: 26px;
+    fill: #fff;
+    stroke: none;
+  }
+  #cw-toggle .cw-ic-close {
+    display: none;
+    stroke: #fff;
+    stroke-width: 2;
+    fill: none;
+  }
+  #cw-toggle.open {
+    background: linear-gradient(135deg, #1e293b, #0f172a);
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+    animation: none;
+  }
+  #cw-toggle.open .cw-ic-chat {
+    display: none;
+  }
+  #cw-toggle.open .cw-ic-close {
+    display: block;
+  }
+  @keyframes cw-pulse {
+    0% {
+      box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4), 0 0 0 0 rgba(59, 130, 246, 0.6);
+    }
+    70% {
+      box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4), 0 0 0 14px rgba(59, 130, 246, 0);
+    }
+    100% {
+      box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4), 0 0 0 0 rgba(59, 130, 246, 0);
+    }
+  }
+
+  /* --- Chat Popup Window --- */
+  #cw-popup {
+    position: fixed;
+    bottom: 96px;
+    left: 24px;
+    z-index: 9998;
+    width: calc(100vw - 48px);
+    max-width: 400px;
+    height: 560px;
+    max-height: calc(100vh - 120px);
+    background: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    border-radius: 24px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(56, 189, 248, 0.2);
+    transform-origin: bottom left;
+    transform: scale(0.9) translateY(20px);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s ease;
+  }
+  #cw-popup.visible {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  /* --- Header --- */
+  .cw-header {
+    padding: 16px 20px;
+    flex-shrink: 0;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(6, 182, 212, 0.1));
+    border-bottom: 1px solid rgba(56, 189, 248, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .cw-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #3b82f6, #06b6d4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    box-shadow: 0 0 12px rgba(59, 130, 246, 0.4);
+  }
+  .cw-hname {
+    font-size: 16px;
+    font-weight: 700;
+    color: #f1f5f9;
+    letter-spacing: -0.2px;
+  }
+  .cw-hstatus {
+    font-size: 11px;
+    color: #a5f3fc;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 2px;
+  }
+  .cw-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #10b981;
+    box-shadow: 0 0 6px #10b981;
+    animation: cw-blink 1.4s ease-in-out infinite;
+  }
+  @keyframes cw-blink {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.9); }
+  }
+
+  /* --- Model Bar --- */
+  .cw-modelbar {
+    padding: 8px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+    overflow-x: auto;
+    scrollbar-width: thin;
+    background: rgba(0, 0, 0, 0.2);
+  }
+  .cw-modelbar::-webkit-scrollbar {
+    height: 3px;
+  }
+  .cw-modelbar::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+  }
+  .cw-modelbar::-webkit-scrollbar-thumb {
+    background: rgba(59, 130, 246, 0.5);
+    border-radius: 4px;
+  }
+  .cw-chip {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 4px 12px;
+    border-radius: 30px;
+    cursor: pointer;
+    white-space: nowrap;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #94a3b8;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+  }
+  .cw-chip:hover {
+    background: rgba(59, 130, 246, 0.2);
+    border-color: rgba(59, 130, 246, 0.5);
+    color: #e2e8f0;
+  }
+  .cw-chip.active {
+    background: rgba(59, 130, 246, 0.3);
+    border-color: #3b82f6;
+    color: #fff;
+    box-shadow: 0 0 8px rgba(59, 130, 246, 0.3);
+  }
+
+  /* --- Messages Area --- */
+  .cw-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: rgba(0, 0, 0, 0.2);
+  }
+  .cw-messages::-webkit-scrollbar {
+    width: 4px;
+  }
+  .cw-messages::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .cw-messages::-webkit-scrollbar-thumb {
+    background: rgba(59, 130, 246, 0.4);
+    border-radius: 4px;
+  }
+
+  /* --- Individual Messages --- */
+  .cw-msg {
+    max-width: 88%;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    animation: cw-slidein 0.2s ease forwards;
+  }
+  @keyframes cw-slidein {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .cw-msg.user {
+    align-self: flex-end;
+    align-items: flex-end;
+  }
+  .cw-msg.ai {
+    align-self: flex-start;
+    align-items: flex-start;
+  }
+  .cw-bubble {
+    padding: 10px 14px;
+    border-radius: 18px;
+    font-size: 13px;
+    line-height: 1.45;
+    word-break: break-word;
+    white-space: pre-wrap;
+    font-weight: 500;
+    max-width: 100%;
+  }
+  .cw-msg.user .cw-bubble {
+    background: linear-gradient(115deg, #3b82f6, #06b6d4);
+    color: white;
+    border-bottom-right-radius: 5px;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+  }
+  .cw-msg.ai .cw-bubble {
+    background: rgba(30, 41, 59, 0.9);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    color: #e2e8f0;
+    border-bottom-left-radius: 5px;
+    backdrop-filter: blur(4px);
+  }
+  .cw-time {
+    font-size: 9px;
+    color: #64748b;
+    margin: 0 6px;
+  }
+
+  /* --- Typing Indicator --- */
+  .cw-typing {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    padding: 10px 16px;
+    background: rgba(30, 41, 59, 0.9);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    border-radius: 18px;
+    border-bottom-left-radius: 5px;
+    width: fit-content;
+  }
+  .cw-typing span {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #3b82f6;
+    display: inline-block;
+    animation: cw-bounce 1.2s infinite ease-in-out;
+  }
+  .cw-typing span:nth-child(2) { animation-delay: 0.15s; background: #06b6d4; }
+  .cw-typing span:nth-child(3) { animation-delay: 0.3s; background: #8b5cf6; }
+  @keyframes cw-bounce {
+    0%, 80%, 100% { transform: translateY(0); opacity: 0.5; }
+    40% { transform: translateY(-6px); opacity: 1; }
+  }
+
+  /* --- Empty State --- */
+  .cw-empty {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    color: #475569;
+    text-align: center;
+    padding: 20px;
+  }
+  .cw-empty .cw-eico {
+    font-size: 2.8rem;
+    filter: drop-shadow(0 0 6px #3b82f6);
+  }
+  .cw-empty span {
+    font-size: 13px;
+    font-weight: 500;
+    background: linear-gradient(90deg, #94a3b8, #cbd5e1);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* --- Input Area --- */
+  .cw-input-wrap {
+    padding: 12px 16px;
+    border-top: 1px solid rgba(56, 189, 248, 0.2);
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+    background: rgba(0, 0, 0, 0.3);
+    flex-shrink: 0;
+  }
+  #cw-input {
+    flex: 1;
+    background: rgba(15, 23, 42, 0.8);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    border-radius: 20px;
+    padding: 10px 16px;
+    font-size: 13px;
+    font-family: 'Inter', monospace;
+    color: #e2e8f0;
+    outline: none;
+    resize: none;
+    max-height: 90px;
+    line-height: 1.4;
+    transition: all 0.2s;
+  }
+  #cw-input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+  }
+  #cw-input::placeholder {
+    color: #475569;
+  }
+  #cw-send {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    border: none;
+    border-radius: 40px;
+    cursor: pointer;
+    background: linear-gradient(135deg, #3b82f6, #06b6d4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+  }
+  #cw-send:active {
+    transform: scale(0.92);
+  }
+  #cw-send:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+  }
+  #cw-send svg {
+    width: 16px;
+    height: 16px;
+    stroke: #fff;
+    stroke-width: 2;
+    fill: none;
+  }
+</style>
+
+<!-- BUTTON -->
+<button id="cw-toggle" aria-label="Open AI chat">
+  <svg class="cw-ic-chat" viewBox="0 0 24 24"><path d="M20 2H4a2 2 0 00-2 2v18l4-4h14a2 2 0 002-2V4a2 2 0 00-2-2z"/></svg>
+  <svg class="cw-ic-close" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+</button>
+
+<!-- POPUP -->
+<div id="cw-popup">
+  <div class="cw-header">
+    <div class="cw-avatar">💬</div>
+    <div>
+      <div class="cw-hname">Datlunok's AI</div>
+      <div class="cw-hstatus"><div class="cw-dot"></div><span>available</span></div>
+    </div>
+  </div>
+
+  <div class="cw-modelbar" id="cw-modelbar"></div>
+
+  <div class="cw-messages" id="cw-messages">
+    <div class="cw-empty" id="cw-empty">
+      <div class="cw-eico">._.</div>
+      <span>Mới chỉ là thử nghiệm thôi...</span>
+    </div>
+  </div>
+
+  <div class="cw-input-wrap">
+    <textarea id="cw-input" rows="1" placeholder="Nhắn gì đó…"></textarea>
+    <button id="cw-send" disabled>
+      <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+(function () {
+
+  // ═══════════════════════════════════════════
+  const WORKER_URL = 'https://apikeys.datlun2k11.workers.dev/';   // ← Worker proxy của mày
+
+  const SYSTEM_PROMPT = `Mày là Datlunok AI – trợ lý AI xịn xò của trang Datlunok App Hub.
+
+Tính cách:
+- Nói chuyện Gen Z, thân thiện, vui vẻ, hay dùng emoji
+- Xưng "tao – mày" với người dùng cho thân
+- Ngắn gọn, đi thẳng vào vấn đề, ko dài dòng lê thê
+- Thỉnh thoảng hài hước nhẹ nhưng vẫn helpful
+
+Mày biết về các app trên trang này:
+- Esign (v5.0.2, 5.4MB): app cài IPA trên iOS, cần cert để ký (đã bị revoke)
+- Cert ZIP: chứng chỉ dùng kèm Esign để ký app (đã bị revoke)
+- Delta iOS (v2.704.123, 147MB): executor Roblox, có anti-ban, thay thế cho KRNL
+- KRNL iOS: executor cũ, đã bị Roblox detect, không khuyến nghị dùng nữa
+- Brother Hai's Restaurant (v1.0.8, 1.6GB): game indie Việt Nam về bán phở, cốt truyện cực cuốn, cần Esign để cài
+- DNS Chặn QC: chặn 90% quảng cáo ở cấp hệ thống, credit HaPhung
+- Shortcut tải video: tải video không logo từ nhiều nền tảng
+
+Quy tắc: nói chuyện thành thật, ko biết thì nói ko biết`;
+
+  const MODELS = [
+    { label: '🌟 Kimi K2 (1T) 🌟',        id: 'moonshotai/kimi-k2-instruct-0905' },
+    { label: 'GPT-OSS-120B', id: 'openai/gpt-oss-120b' },
+    { label: 'Llama 3.3 70B',  id: 'llama-3.3-70b-versatile' },
+    { label: 'Llama 3.1 8B',   id: 'llama-3.1-8b-instant' },
+    { label: 'Llama 4 Scout (16B)',  id: 'meta-llama/llama-4-scout-17b-16e-instruct' },
+    { label: '❌ Qwen3 32B ❌',      id: 'qwen/qwen-3-32b' },
+  ];
+  // ═══════════════════════════════════════════
+
+  let activeIdx = 0, history = [];
+
+  const $       = id => document.getElementById(id);
+  const toggleBtn = $('cw-toggle'), popup = $('cw-popup');
+  const msgs = $('cw-messages'), inp = $('cw-input'), sendBtn = $('cw-send');
+  let emptyEl = $('cw-empty');
+
+  // build model chips
+  MODELS.forEach((m, i) => {
+    const c = document.createElement('div');
+    c.className = 'cw-chip' + (i === 0 ? ' active' : '');
+    c.textContent = m.label;
+    c.onclick = () => {
+      document.querySelectorAll('.cw-chip').forEach(x => x.classList.remove('active'));
+      c.classList.add('active'); 
+      activeIdx = i;
+    };
+    $('cw-modelbar').appendChild(c);
+  });
+
+  toggleBtn.onclick = () => {
+    const open = popup.classList.toggle('visible');
+    toggleBtn.classList.toggle('open', open);
+    if (open) setTimeout(() => inp.focus(), 350);
+  };
+
+  inp.oninput = () => {
+    inp.style.height = 'auto';
+    inp.style.height = Math.min(inp.scrollHeight, 80) + 'px';
+    sendBtn.disabled = !inp.value.trim();
+  };
+
+  inp.onkeydown = e => {
+    if (e.key === 'Enter' && !e.shiftKey) { 
+      e.preventDefault(); 
+      if (!sendBtn.disabled) send(); 
+    }
+  };
+
+  sendBtn.onclick = send;
+
+  function rmEmpty() { 
+    if (emptyEl) { 
+      emptyEl.remove(); 
+      emptyEl = null; 
+    } 
+  }
+
+  function now() { 
+    return new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' }); 
+  }
+
+  function addMsg(role, text) {
+    rmEmpty();
+    const w = document.createElement('div'); 
+    w.className = 'cw-msg ' + role;
+    const b = document.createElement('div'); 
+    b.className = 'cw-bubble'; 
+    b.textContent = text;
+    const t = document.createElement('div'); 
+    t.className = 'cw-time'; 
+    t.textContent = now();
+    w.append(b, t); 
+    msgs.appendChild(w);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  function showTyping() {
+    rmEmpty();
+    const w = document.createElement('div'); 
+    w.className = 'cw-msg ai'; 
+    w.id = 'cw-typing';
+    const b = document.createElement('div'); 
+    b.className = 'cw-bubble cw-typing';
+    b.innerHTML = '<span></span><span></span><span></span>';
+    w.append(b); 
+    msgs.appendChild(w);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  function rmTyping() { 
+    const e = $('cw-typing'); 
+    if (e) e.remove(); 
+  }
+
+  async function send() {
+    const txt = inp.value.trim(); 
+    if (!txt) return;
+
+    inp.value = ''; 
+    inp.style.height = 'auto'; 
+    sendBtn.disabled = true;
+
+    addMsg('user', txt);
+    history.push({ role: 'user', content: txt });
+    showTyping();
+
+    const messages = [{ role: 'system', content: SYSTEM_PROMPT }, ...history];
+
+    try {
+      const r = await fetch(WORKER_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          model: MODELS[activeIdx].id, 
+          messages, 
+          max_tokens: 1024, 
+          temperature: 0.75 
+        })
+      });
+
+      const d = await r.json();
+      rmTyping();
+
+      if (!r.ok) {
+        addMsg('ai', '❌ ' + (d?.error?.message || 'Lỗi server ' + r.status));
+        history.pop();
+        return;
+      }
+
+      const rep = d.choices?.[0]?.message?.content || '(không có phản hồi)';
+      history.push({ role: 'assistant', content: rep });
+      addMsg('ai', rep);
+
+    } catch (err) {
+      rmTyping();
+      addMsg('ai', '❌ Mạng lỗi hoặc Worker chưa chạy: ' + err.message);
+      history.pop();
+    }
+  }
+
+})();
+</script>
             <!-- App Card 2: Cert ZIP -->
             <div class="app-card fade-in p-5" style="--stagger-order: 2;">
                 <div class="flex flex-col h-full">
@@ -475,9 +1067,9 @@
                             <i class="fas fa-tag mr-1"></i>
                             <span>Phiên bản: Không xác định</span>
                         </div>
-                        <div class="text-xs text-emerald-400">
-                            <i class="fas fa-check-circle mr-1"></i>
-                            Cần thiết
+                        <div class="text-xs text-amber-400">
+                            <i class="fas fa-exclamation-circle mr-1"></i>
+                            Revoked
                         </div>
                     </div>
                     
