@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>⚡ Datlunok App Hub - Kho ứng dụng iOS miễn phí ⚡</title>
+    <title>🛑 Datlunok App Hub · Shut down</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -13,1449 +13,347 @@
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
-            color: #e2e8f0;
+            background: #0b1120;
             min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
             position: relative;
             overflow-x: hidden;
         }
-        
+
+        /* background effect — nebula soft */
         body::before {
             content: '';
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             background: 
-                radial-gradient(circle at 20% 30%, rgba(56, 189, 248, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(139, 92, 246, 0.08) 0%, transparent 50%);
+                radial-gradient(circle at 20% 40%, rgba(56, 189, 248, 0.12) 0%, transparent 35%),
+                radial-gradient(circle at 80% 70%, rgba(139, 92, 246, 0.12) 0%, transparent 40%),
+                radial-gradient(circle at 40% 80%, rgba(16, 185, 129, 0.08) 0%, transparent 35%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* animated floating particles (pure css) */
+        .particle {
+            position: fixed;
+            width: 6px;
+            height: 6px;
+            background: rgba(56, 189, 248, 0.4);
+            border-radius: 50%;
+            filter: blur(1px);
+            animation: floatParticle 18s infinite alternate ease-in-out;
             z-index: -1;
         }
-        
-        .glass-effect {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        .particle:nth-child(1) { top: 15%; left: 10%; width: 8px; height: 8px; background: #3b82f6; animation-duration: 22s; }
+        .particle:nth-child(2) { top: 70%; left: 85%; width: 5px; height: 5px; background: #a78bfa; animation-duration: 16s; }
+        .particle:nth-child(3) { top: 45%; left: 25%; width: 7px; height: 7px; background: #2dd4bf; animation-duration: 28s; }
+        .particle:nth-child(4) { top: 80%; left: 45%; width: 6px; height: 6px; background: #f472b6; animation-duration: 20s; }
+        .particle:nth-child(5) { top: 30%; left: 75%; width: 9px; height: 9px; background: #38bdf8; animation-duration: 25s; }
+
+        @keyframes floatParticle {
+            0% { transform: translate(0, 0) scale(1); opacity: 0.5; }
+            100% { transform: translate(40px, -30px) scale(1.4); opacity: 0.2; }
         }
-        
-        .neon-glow {
-            box-shadow: 
-                0 0 20px rgba(56, 189, 248, 0.3),
-                inset 0 0 20px rgba(56, 189, 248, 0.1);
-        }
-        
-        .app-card {
-            background: linear-gradient(145deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.9) 100%);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            overflow: hidden;
-            position: relative;
-            z-index: 1;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .app-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #3b82f6, #8b5cf6, #06b6d4);
-            z-index: 2;
-        }
-        
-        .app-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 
-                0 20px 40px rgba(0, 0, 0, 0.4),
-                0 0 30px rgba(56, 189, 248, 0.3);
-            border-color: rgba(56, 189, 248, 0.3);
-        }
-        
-        .app-logo {
-            width: 80px;
-            height: 80px;
-            border-radius: 20px;
-            object-fit: cover;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s ease;
-        }
-        
-        .app-card:hover .app-logo {
-            transform: scale(1.1) rotate(5deg);
-        }
-        
-        .download-button {
-            background: linear-gradient(90deg, #3b82f6 0%, #06b6d4 100%);
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-        }
-        
-        .download-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
+
+        .glass-card {
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            border-radius: 48px;
+            box-shadow: 0 30px 50px -10px rgba(0,0,0,0.6), 0 0 0 1px rgba(59,130,246,0.1), 0 0 30px rgba(56,189,248,0.2);
+            max-width: 680px;
             width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.7s ease;
-        }
-        
-        .download-button:hover::before {
-            left: 100%;
-        }
-        
-        .download-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.4);
-        }
-        
-        .badge {
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        .ios-badge {
-            background: linear-gradient(90deg, #007aff, #5856d6);
-            color: white;
-        }
-        
-        .free-badge {
-            background: linear-gradient(90deg, #10b981, #059669);
-            color: white;
-        }
-        
-        .size-badge {
-            background: linear-gradient(90deg, #ef4444, #dc2626);
-            color: white;
-        }
-        
-        .header-gradient {
-            background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.95) 100%);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .header-gradient::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(56, 189, 248, 0.1) 0%, transparent 70%);
-            animation: pulse 8s infinite alternate;
-        }
-        
-        @keyframes pulse {
-            0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(-10%, -10%) scale(1.1); }
-        }
-        
-        .section-title {
-            position: relative;
-            display: inline-block;
-            margin-bottom: 2rem;
-        }
-        
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 4px;
-            background: linear-gradient(90deg, #3b82f6, #06b6d4);
-            border-radius: 2px;
-        }
-        
-        .floating {
-            animation: floating 6s ease-in-out infinite;
-        }
-        
-        @keyframes floating {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
-            100% { transform: translateY(0px); }
-        }
-        
-        .fade-in {
+            padding: 2.8rem 2.5rem;
+            transition: all 0.3s;
+            animation: fadeUp 0.9s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
             opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUp 0.8s ease forwards;
+            transform: translateY(30px);
         }
-        
-        @keyframes fadeInUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+
+        @keyframes fadeUp {
+            to { opacity: 1; transform: translateY(0); }
         }
-        
-        .grid-stagger > * {
-            animation-delay: calc(var(--stagger-order) * 0.1s);
-        }
-        
-        .loading-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+
+        .shutdown-icon {
+            background: linear-gradient(145deg, #1e293b, #0f172a);
+            width: 100px;
+            height: 100px;
+            border-radius: 40px;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
             align-items: center;
-            z-index: 9999;
-            transition: opacity 0.5s ease, visibility 0.5s ease;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            border: 1px solid rgba(239, 68, 68, 0.5);
+            box-shadow: 0 0 30px rgba(239, 68, 68, 0.3), inset 0 2px 6px rgba(0,0,0,0.5);
+            animation: softPulse 3s infinite alternate;
         }
-        
-        .loader {
-            width: 70px;
-            height: 70px;
-            border: 5px solid rgba(59, 130, 246, 0.2);
-            border-radius: 50%;
-            border-top-color: #3b82f6;
-            animation: spin 1s linear infinite;
-            margin-bottom: 20px;
+
+        @keyframes softPulse {
+            0% { box-shadow: 0 0 15px rgba(239, 68, 68, 0.3), inset 0 0 5px #1e293b; }
+            100% { box-shadow: 0 0 30px rgba(239, 68, 68, 0.6), inset 0 0 8px #0f172a; }
         }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+
+        .shutdown-icon i {
+            font-size: 52px;
+            color: #f87171;
+            filter: drop-shadow(0 0 12px #ef4444);
         }
-        
-        .pulse-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: #3b82f6;
-            animation: pulseDot 1.5s infinite;
-            margin: 0 5px;
-        }
-        
-        @keyframes pulseDot {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.5); opacity: 0.5; }
-        }
-        
-        .coming-soon {
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .coming-soon::after {
-            content: 'SOON';
-            position: absolute;
-            top: 10px;
-            right: -30px;
-            background: #f59e0b;
-            color: #1e293b;
-            padding: 3px 30px;
-            font-size: 0.7rem;
+
+        .title-glow {
             font-weight: 800;
-            transform: rotate(45deg);
-            letter-spacing: 1px;
+            background: linear-gradient(135deg, #f1f5f9, #cbd5e1);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.02em;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
         }
-        
-        .typewriter {
-            overflow: hidden;
-            border-right: 2px solid #3b82f6;
-            white-space: nowrap;
-            animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+
+        .divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #3b82f6, #a78bfa, transparent);
+            margin: 2rem 0 1.5rem;
+            border-radius: 10px;
         }
-        
-        @keyframes typing {
-            from { width: 0 }
-            to { width: 100% }
+
+        .info-block {
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 28px;
+            padding: 1.6rem 1.8rem;
+            border: 1px solid rgba(255,255,255,0.06);
+            backdrop-filter: blur(4px);
+            transition: transform 0.2s;
         }
-        
-        @keyframes blink-caret {
-            from, to { border-color: transparent }
-            50% { border-color: #3b82f6 }
+
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0.6rem 1.4rem;
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid #334155;
+            border-radius: 60px;
+            color: #cbd5e1;
+            font-weight: 500;
+            transition: all 0.25s;
+            text-decoration: none;
+            backdrop-filter: blur(4px);
         }
-        
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .app-card {
-                border-radius: 14px;
-            }
-            
-            .app-logo {
-                width: 70px;
-                height: 70px;
-            }
-            
-            .header-gradient {
-                padding-top: 1.5rem;
-                padding-bottom: 1.5rem;
-            }
+
+        .social-link:hover {
+            border-color: #3b82f6;
+            background: #1e293b;
+            color: white;
+            box-shadow: 0 8px 18px -8px #3b82f6;
+            transform: translateY(-2px);
         }
-        
-        @media (max-width: 640px) {
-            .app-card {
-                border-radius: 12px;
-            }
-            
-            .app-logo {
-                width: 60px;
-                height: 60px;
-            }
+
+        .thankyou-message {
+            font-size: 1.25rem;
+            line-height: 1.5;
+            color: #e2e8f0;
+            text-shadow: 0 2px 5px #00000030;
+        }
+
+        .wave-emoji {
+            display: inline-block;
+            animation: wave 2s infinite;
+            transform-origin: 70% 70%;
+        }
+        @keyframes wave {
+            0% { transform: rotate(0deg); }
+            10% { transform: rotate(14deg); }
+            20% { transform: rotate(-8deg); }
+            30% { transform: rotate(10deg); }
+            40% { transform: rotate(-4deg); }
+            50% { transform: rotate(8deg); }
+            60% { transform: rotate(0deg); }
+            100% { transform: rotate(0deg); }
+        }
+
+        .signature {
+            font-family: 'Inter', monospace;
+            letter-spacing: -0.3px;
+        }
+
+        .glow-text {
+            color: #bae6fd;
+        }
+
+        /* mobile friendly */
+        @media (max-width: 480px) {
+            .glass-card { padding: 2rem 1.5rem; }
+            .shutdown-icon { width: 80px; height: 80px; }
+            .shutdown-icon i { font-size: 42px; }
         }
     </style>
 </head>
 <body>
-    <!-- Loading Screen -->
-    <div id="loading-screen" class="loading-screen">
-        <div class="loader"></div>
-        <div class="flex items-center mt-4">
-            <div class="pulse-dot"></div>
-            <div class="pulse-dot" style="animation-delay: 0.2s"></div>
-            <div class="pulse-dot" style="animation-delay: 0.4s"></div>
+    <!-- animated particles for ambient atmosphere -->
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+
+    <!-- MAIN SHUTDOWN CARD -->
+    <div class="glass-card text-center">
+        
+        <!-- icon + shut down badge -->
+        <div class="shutdown-icon">
+            <i class="fas fa-power-off"></i>
         </div>
-        <p class="mt-6 text-lg font-semibold text-cyan-300">Đang tải kho ứng dụng...</p>
-    </div>
 
-    <!-- Header -->
-    <header class="header-gradient border-b border-slate-700/50 shadow-2xl">
-        <div class="container mx-auto px-4 py-8 relative z-10">
-            <div class="flex flex-col items-center text-center">
-                <div class="flex items-center justify-center mb-4">
-                    <div class="w-12 h-12 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 flex items-center justify-center mr-3 shadow-lg">
-                        <i class="fas fa-mobile-alt text-white text-xl"></i>
-                    </div>
-                    <h1 class="text-4xl md:text-5xl font-black bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-500">
-                        Datlunok App Hub
-                    </h1>
+        <h1 class="text-4xl md:text-5xl font-black title-glow mb-3 tracking-tight">
+            DATLUNOK APP HUB
+        </h1>
+        
+        <div class="inline-block px-6 py-1.5 rounded-full bg-red-950/60 border border-red-500/40 text-red-200 text-sm font-bold uppercase tracking-wider backdrop-blur-sm mb-5">
+            <i class="fas fa-circle mr-2 text-[10px] text-red-400 align-middle"></i> 
+            Đã ngừng hoạt động · Shut down permanently
+        </div>
+
+        <!-- main message -->
+        <div class="thankyou-message font-semibold mb-3">
+            <span class="wave-emoji mr-2">👋</span> 
+            Web đã shut down.
+        </div>
+        <p class="text-slate-300 text-lg mb-2 font-medium">
+            Cảm ơn bạn đã đồng hành.
+        </p>
+        <p class="text-slate-400 text-md mb-6">
+            có thể bị dính bản quyền, shut down cho chắc=)). <br class="hidden sm:block">
+            Còn nhiều trang web khác mà.
+        </p>
+
+        <!-- divider elegant -->
+        <div class="divider"></div>
+
+        <!-- CHỦ WEB — THÔNG TIN CÁ NHÂN (chỉ giữ lại phần này) -->
+        <div class="info-block">
+            <div class="flex items-center justify-center gap-3 mb-4">
+                <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-700 flex items-center justify-center shadow-lg">
+                    <i class="fas fa-user-astronaut text-white text-xl"></i>
                 </div>
-                
-                <p class="text-lg md:text-xl text-slate-300 max-w-3xl mx-auto mb-6 typewriter">
-                    Kho ứng dụng iOS miễn phí - Dành cho cộng đồng
-                </p>
-                
-                <div class="glass-effect rounded-2xl p-5 md:p-6 w-full max-w-4xl mb-6">
-                    <div class="flex items-center justify-center mb-4">
-                        <div class="ios-badge badge mr-3">
-                            <i class="fas fa-apple mr-1"></i> iOS
+                <div class="text-left">
+                    <div class="text-white font-bold text-xl tracking-tight">Datlunok</div>
+                    <div class="text-cyan-300 text-sm flex items-center gap-1.5">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_#34d399]"></span> 
+                        chủ web · iOS user
+                    </div>
+                </div>
+            </div>
+
+            <!-- chi tiết liên hệ / thông tin cá nhân -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-left">
+                <!-- cột trái -->
+                <div class="space-y-3">
+                    <div class="flex items-center gap-3 text-slate-200">
+                        <div class="w-8 h-8 rounded-xl bg-slate-800/80 flex items-center justify-center border border-slate-700">
+                            <i class="fab fa-tiktok text-[#ff0050] text-lg"></i>
                         </div>
-                        <div class="free-badge badge">
-                            <i class="fas fa-gift mr-1"></i> Miễn phí
+                        <div>
+                            <div class="text-xs text-slate-400">TikTok</div>
+                            <a href="https://www.tiktok.com/@datlun2k11.3.sub?_r=1&_t=ZS-91V1HbmsxB1" target="_blank" class="text-sky-300 hover:text-sky-200 font-medium text-sm break-all">
+                                @datlun2k11.3.sub
+                            </a>
                         </div>
                     </div>
-                    
-                    <p class="text-slate-300 mb-3">
-                        <i class="fas fa-code text-cyan-400 mr-2"></i>
-                        Tập tành làm web nên còn nhiều lỗi, đây chỉ là bản thử nghiệm 💔
-                    </p>
-                    <p class="text-slate-300 mb-3">
-                        <i class="fas fa-link text-blue-400 mr-2"></i>
-                        Nơi tôi tổng hợp link tải ứng dụng iOS cho anh em
-                    </p>
-                    <p class="text-amber-300 font-semibold">
-                        <i class="fas fa-heart text-pink-500 mr-2"></i>
-                        Cảm ơn bạn đã tin tưởng - Web không có quảng cáo!
-                    </p>
-                    
-                    <div class="mt-6 flex justify-center">
-                        <img src="https://placehold.co/120x120/06b6d4/0f172a?text=OK" alt="Logo" class="app-logo floating">
+                    <div class="flex items-center gap-3 text-slate-200">
+                        <div class="w-8 h-8 rounded-xl bg-slate-800/80 flex items-center justify-center border border-slate-700">
+                            <i class="fab fa-github text-white text-lg"></i>
+                        </div>
+                        <div>
+                            <div class="text-xs text-slate-400">GitHub / APK Hub</div>
+                            <a href="https://datlun2k11-pixel.github.io/Datlunokapk.github.io/" target="_blank" class="text-sky-300 hover:text-sky-200 font-medium text-sm break-all">
+                                Datlunokapk
+                            </a>
+                        </div>
                     </div>
                 </div>
-                
-                <div class="bg-gradient-to-r from-red-900/40 to-rose-900/40 border border-red-500/30 rounded-xl p-4 w-full max-w-2xl mb-8">
-                    <div class="flex items-center mb-2">
-                        <i class="fas fa-exclamation-triangle text-red-400 text-xl mr-2"></i>
-                        <p class="text-red-200 text-lg font-bold">Lưu ý quan trọng:</p>
+                <!-- cột phải -->
+                <div class="space-y-3">
+                    <div class="flex items-center gap-3 text-slate-200">
+                        <div class="w-8 h-8 rounded-xl bg-slate-800/80 flex items-center justify-center border border-slate-700">
+                            <i class="fas fa-envelope text-amber-300"></i>
+                        </div>
+                        <div>
+                            <div class="text-xs text-slate-400">Email (liên hệ)</div>
+                            <span class="text-slate-300 text-sm">datlun2k11@gmail.com</span>
+                        </div>
                     </div>
-                    <p class="text-blue-300 text-xl font-extrabold">
-                        <i class="fas fa-mobile-alt mr-2"></i>
-                        Chỉ dành cho iOS thôi nhé! 🛠️
-                    </p>
+                    <div class="flex items-center gap-3 text-slate-200">
+                        <div class="w-8 h-8 rounded-xl bg-slate-800/80 flex items-center justify-center border border-slate-700">
+                            <i class="fas fa-map-pin text-rose-300"></i>
+                        </div>
+                        <div>
+                            <div class="text-xs text-slate-400">Location</div>
+                            <span class="text-slate-300 text-sm">Vietnam · iOS community</span>
+                        </div>
+                    </div>
                 </div>
-                
-                <div class="flex flex-col md:flex-row gap-4 w-full max-w-2xl">
-                    <a href="https://www.tiktok.com/@datlun2k11.3.sub?_r=1&_t=ZS-91V1HbmsxB1" target="_blank" 
-                       class="download-button flex items-center justify-center py-3 px-6 rounded-xl text-white font-bold text-lg">
-                        <i class="fab fa-tiktok mr-3 text-xl"></i>
-                        TikTok chủ web
-                    </a>
-                    
-                    <a href="https://datlun2k11-pixel.github.io/Datlunokapk.github.io/" target="_blank" 
-                       class="download-button flex items-center justify-center py-3 px-6 rounded-xl text-white font-bold text-lg" 
-                       style="background: linear-gradient(90deg, #10b981 0%, #059669 100%);">
-                        <i class="fas fa-box-open mr-3 text-xl"></i>
-                        APK HUB Datlunok
-                    </a>
-                </div>
-                
-                <h2 class="text-3xl md:text-4xl font-black mt-10 mb-6 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300 section-title">
-                    <i class="fas fa-boxes mr-3"></i>
-                    KHO ỨNG DỤNG
-                </h2>
+            </div>
+
+            <!-- dòng tagline / tâm sự nhỏ -->
+            <div class="mt-6 pt-4 border-t border-slate-700/60 text-sm text-slate-400 italic flex items-center justify-center gap-2">
+                <i class="fas fa-heart text-pink-500 text-xs"></i>
+                <span>“Coming soon.”</span>
+                <i class="fas fa-heart text-pink-500 text-xs"></i>
             </div>
         </div>
-    </header>
 
-    <!-- Main Content -->
-    <main class="container mx-auto px-4 py-8">
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 grid-stagger">
-            <!-- App Card 1: Esign -->
-            <div class="app-card fade-in p-5" style="--stagger-order: 1;">
-                <div class="flex flex-col h-full">
-                    <div class="flex justify-center mb-4">
-                        <img src="https://placehold.co/100x100/3B82F6/ffffff?text=Esign" alt="Esign" class="app-logo">
-                    </div>
-                    
-                    <div class="flex justify-between items-start mb-3">
-                        <h3 class="text-xl font-bold text-blue-300">Esign</h3>
-                        <span class="size-badge badge">5.4MB</span>
-                    </div>
-                    
-                    <p class="text-slate-400 text-sm mb-4 flex-grow">
-                        <i class="fas fa-info-circle text-blue-400 mr-1"></i>
-                        App giúp cài đặt file IPA trên iOS, có nguy cơ bị Apple thu hồi chứng chỉ.
-                    </p>
-                    
-                    <div class="flex justify-between items-center mb-5">
-                        <div class="flex items-center text-slate-500 text-sm">
-                            <i class="fas fa-tag mr-1"></i>
-                            <span>Phiên bản: 5.0.2</span>
-                        </div>
-                        <div class="text-xs text-amber-400">
-                            <i class="fas fa-exclamation-circle mr-1"></i>
-                            Revoked
-                        </div>
-                    </div>
-                    
-                    <a href="https://api.khoindvn.eu.org/XSCvQT" 
-                       target="_blank" class="download-button py-3 rounded-xl text-center">
-                        <i class="fas fa-download mr-2"></i>
-                        CÀI TRỰC TIẾP
-                    </a>
-                </div>
-            </div>
-<!-- ======================================================
-     AI CHAT WIDGET – Groq API
-     Nhét đoạn này vào trước </body> của page bất kỳ là xong
-     ====================================================== -->
-
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet"/>
-
-<style>
-     
-  /* --- Variables & Base Reset --- */
-  #cw-toggle, #cw-popup, #cw-popup * {
-    box-sizing: border-box;
-    font-family: 'Inter', -apple-system, 'Helvetica Neue', Arial, sans-serif;
-  }
-
-  /* --- Chat Toggle Button --- */
-  #cw-toggle {
-    position: fixed;
-    bottom: 28px;
-    left: 28px;
-    z-index: 9999;
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    border: none;
-    cursor: pointer;
-    background: linear-gradient(135deg, #3b82f6, #06b6d4);
-    box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-    animation: cw-pulse 2.4s ease-out infinite;
-  }
-  #cw-toggle:hover {
-    transform: scale(1.1);
-    box-shadow: 0 6px 28px rgba(59, 130, 246, 0.6);
-  }
-  #cw-toggle:active {
-    transform: scale(0.95);
-  }
-  #cw-toggle svg {
-    width: 26px;
-    height: 26px;
-    fill: #fff;
-    stroke: none;
-  }
-  #cw-toggle .cw-ic-close {
-    display: none;
-    stroke: #fff;
-    stroke-width: 2;
-    fill: none;
-  }
-  #cw-toggle.open {
-    background: linear-gradient(135deg, #1e293b, #0f172a);
-    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
-    animation: none;
-  }
-  #cw-toggle.open .cw-ic-chat {
-    display: none;
-  }
-  #cw-toggle.open .cw-ic-close {
-    display: block;
-  }
-  @keyframes cw-pulse {
-    0% {
-      box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4), 0 0 0 0 rgba(59, 130, 246, 0.6);
-    }
-    70% {
-      box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4), 0 0 0 14px rgba(59, 130, 246, 0);
-    }
-    100% {
-      box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4), 0 0 0 0 rgba(59, 130, 246, 0);
-    }
-  }
-
-  /* --- Chat Popup Window --- */
-  #cw-popup {
-    position: fixed;
-    bottom: 96px;
-    left: 24px;
-    z-index: 9998;
-    width: calc(100vw - 48px);
-    max-width: 400px;
-    height: 560px;
-    max-height: calc(100vh - 120px);
-    background: rgba(15, 23, 42, 0.95);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(56, 189, 248, 0.3);
-    border-radius: 24px;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(56, 189, 248, 0.2);
-    transform-origin: bottom left;
-    transform: scale(0.9) translateY(20px);
-    opacity: 0;
-    pointer-events: none;
-    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s ease;
-  }
-  #cw-popup.visible {
-    transform: scale(1) translateY(0);
-    opacity: 1;
-    pointer-events: all;
-  }
-
-  /* --- Header --- */
-  .cw-header {
-    padding: 16px 20px;
-    flex-shrink: 0;
-    background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(6, 182, 212, 0.1));
-    border-bottom: 1px solid rgba(56, 189, 248, 0.2);
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  .cw-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #3b82f6, #06b6d4);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
-    box-shadow: 0 0 12px rgba(59, 130, 246, 0.4);
-  }
-  .cw-hname {
-    font-size: 16px;
-    font-weight: 700;
-    color: #f1f5f9;
-    letter-spacing: -0.2px;
-  }
-  .cw-hstatus {
-    font-size: 11px;
-    color: #a5f3fc;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    margin-top: 2px;
-  }
-  .cw-dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: #10b981;
-    box-shadow: 0 0 6px #10b981;
-    animation: cw-blink 1.4s ease-in-out infinite;
-  }
-  @keyframes cw-blink {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.4; transform: scale(0.9); }
-  }
-
-  /* --- Model Bar --- */
-  .cw-modelbar {
-    padding: 8px 16px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-shrink: 0;
-    overflow-x: auto;
-    scrollbar-width: thin;
-    background: rgba(0, 0, 0, 0.2);
-  }
-  .cw-modelbar::-webkit-scrollbar {
-    height: 3px;
-  }
-  .cw-modelbar::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 4px;
-  }
-  .cw-modelbar::-webkit-scrollbar-thumb {
-    background: rgba(59, 130, 246, 0.5);
-    border-radius: 4px;
-  }
-  .cw-chip {
-    font-size: 11px;
-    font-weight: 500;
-    padding: 4px 12px;
-    border-radius: 30px;
-    cursor: pointer;
-    white-space: nowrap;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: #94a3b8;
-    transition: all 0.2s ease;
-    flex-shrink: 0;
-  }
-  .cw-chip:hover {
-    background: rgba(59, 130, 246, 0.2);
-    border-color: rgba(59, 130, 246, 0.5);
-    color: #e2e8f0;
-  }
-  .cw-chip.active {
-    background: rgba(59, 130, 246, 0.3);
-    border-color: #3b82f6;
-    color: #fff;
-    box-shadow: 0 0 8px rgba(59, 130, 246, 0.3);
-  }
-
-  /* --- Messages Area --- */
-  .cw-messages {
-    flex: 1;
-    overflow-y: auto;
-    padding: 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    background: rgba(0, 0, 0, 0.2);
-  }
-  .cw-messages::-webkit-scrollbar {
-    width: 4px;
-  }
-  .cw-messages::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  .cw-messages::-webkit-scrollbar-thumb {
-    background: rgba(59, 130, 246, 0.4);
-    border-radius: 4px;
-  }
-
-  /* --- Individual Messages --- */
-  .cw-msg {
-    max-width: 88%;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    animation: cw-slidein 0.2s ease forwards;
-  }
-  @keyframes cw-slidein {
-    from {
-      opacity: 0;
-      transform: translateY(6px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  .cw-msg.user {
-    align-self: flex-end;
-    align-items: flex-end;
-  }
-  .cw-msg.ai {
-    align-self: flex-start;
-    align-items: flex-start;
-  }
-  .cw-bubble {
-    padding: 10px 14px;
-    border-radius: 18px;
-    font-size: 13px;
-    line-height: 1.45;
-    word-break: break-word;
-    white-space: pre-wrap;
-    font-weight: 500;
-    max-width: 100%;
-  }
-  .cw-msg.user .cw-bubble {
-    background: linear-gradient(115deg, #3b82f6, #06b6d4);
-    color: white;
-    border-bottom-right-radius: 5px;
-    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
-  }
-  .cw-msg.ai .cw-bubble {
-    background: rgba(30, 41, 59, 0.9);
-    border: 1px solid rgba(56, 189, 248, 0.3);
-    color: #e2e8f0;
-    border-bottom-left-radius: 5px;
-    backdrop-filter: blur(4px);
-  }
-  .cw-time {
-    font-size: 9px;
-    color: #64748b;
-    margin: 0 6px;
-  }
-
-  /* --- Typing Indicator --- */
-  .cw-typing {
-    display: flex;
-    gap: 5px;
-    align-items: center;
-    padding: 10px 16px;
-    background: rgba(30, 41, 59, 0.9);
-    border: 1px solid rgba(56, 189, 248, 0.3);
-    border-radius: 18px;
-    border-bottom-left-radius: 5px;
-    width: fit-content;
-  }
-  .cw-typing span {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: #3b82f6;
-    display: inline-block;
-    animation: cw-bounce 1.2s infinite ease-in-out;
-  }
-  .cw-typing span:nth-child(2) { animation-delay: 0.15s; background: #06b6d4; }
-  .cw-typing span:nth-child(3) { animation-delay: 0.3s; background: #8b5cf6; }
-  @keyframes cw-bounce {
-    0%, 80%, 100% { transform: translateY(0); opacity: 0.5; }
-    40% { transform: translateY(-6px); opacity: 1; }
-  }
-
-  /* --- Empty State --- */
-  .cw-empty {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    color: #475569;
-    text-align: center;
-    padding: 20px;
-  }
-  .cw-empty .cw-eico {
-    font-size: 2.8rem;
-    filter: drop-shadow(0 0 6px #3b82f6);
-  }
-  .cw-empty span {
-    font-size: 13px;
-    font-weight: 500;
-    background: linear-gradient(90deg, #94a3b8, #cbd5e1);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-  }
-
-  /* --- Input Area --- */
-  .cw-input-wrap {
-    padding: 12px 16px;
-    border-top: 1px solid rgba(56, 189, 248, 0.2);
-    display: flex;
-    gap: 10px;
-    align-items: flex-end;
-    background: rgba(0, 0, 0, 0.3);
-    flex-shrink: 0;
-  }
-  #cw-input {
-    flex: 1;
-    background: rgba(15, 23, 42, 0.8);
-    border: 1px solid rgba(56, 189, 248, 0.3);
-    border-radius: 20px;
-    padding: 10px 16px;
-    font-size: 13px;
-    font-family: 'Inter', monospace;
-    color: #e2e8f0;
-    outline: none;
-    resize: none;
-    max-height: 90px;
-    line-height: 1.4;
-    transition: all 0.2s;
-  }
-  #cw-input:focus {
-    border-color: #3b82f6;
-    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
-  }
-  #cw-input::placeholder {
-    color: #475569;
-  }
-  #cw-send {
-    width: 40px;
-    height: 40px;
-    flex-shrink: 0;
-    border: none;
-    border-radius: 40px;
-    cursor: pointer;
-    background: linear-gradient(135deg, #3b82f6, #06b6d4);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s ease;
-  }
-  #cw-send:active {
-    transform: scale(0.92);
-  }
-  #cw-send:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-    transform: none;
-  }
-  #cw-send svg {
-    width: 16px;
-    height: 16px;
-    stroke: #fff;
-    stroke-width: 2;
-    fill: none;
-  }
-</style>
-
-<!-- BUTTON -->
-<button id="cw-toggle" aria-label="Open AI chat">
-  <svg class="cw-ic-chat" viewBox="0 0 24 24"><path d="M20 2H4a2 2 0 00-2 2v18l4-4h14a2 2 0 002-2V4a2 2 0 00-2-2z"/></svg>
-  <svg class="cw-ic-close" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
-</button>
-
-<!-- POPUP -->
-<div id="cw-popup">
-  <div class="cw-header">
-    <div class="cw-avatar">💬</div>
-    <div>
-      <div class="cw-hname">Datlunok's AI</div>
-      <div class="cw-hstatus"><div class="cw-dot"></div><span>available</span></div>
-    </div>
-  </div>
-
-  <div class="cw-modelbar" id="cw-modelbar"></div>
-
-  <div class="cw-messages" id="cw-messages">
-    <div class="cw-empty" id="cw-empty">
-      <div class="cw-eico">._.</div>
-      <span>Mới chỉ là thử nghiệm thôi...</span>
-    </div>
-  </div>
-
-  <div class="cw-input-wrap">
-    <textarea id="cw-input" rows="1" placeholder="Nhắn gì đó…"></textarea>
-    <button id="cw-send" disabled>
-      <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-    </button>
-  </div>
-</div>
-
-<script>
-(function () {
-
-  // ═══════════════════════════════════════════
-  const WORKER_URL = 'https://apikeys.datlun2k11.workers.dev/';   // ← Worker proxy của mày
-
-  const SYSTEM_PROMPT = `Mày là Datlunok AI – trợ lý AI xịn xò của trang Datlunok App Hub.
-
-Tính cách:
-- Nói chuyện Gen Z, thân thiện, vui vẻ, hay dùng emoji
-- Xưng "tao – mày" với người dùng cho thân
-- Ngắn gọn, đi thẳng vào vấn đề, ko dài dòng lê thê
-- Thỉnh thoảng hài hước nhẹ nhưng vẫn helpful
-
-Mày biết về các app trên trang này:
-- Esign (v5.0.2, 5.4MB): app cài IPA trên iOS, cần cert để ký (đã bị revoke)
-- Cert ZIP: chứng chỉ dùng kèm Esign để ký app (đã bị revoke)
-- Delta iOS (v2.704.123, 147MB): executor Roblox, có anti-ban, thay thế cho KRNL
-- KRNL iOS: executor cũ, đã bị Roblox detect, không khuyến nghị dùng nữa
-- Brother Hai's Restaurant (v1.0.8, 1.6GB): game indie Việt Nam về bán phở, cốt truyện cực cuốn, cần Esign để cài
-- DNS Chặn QC: chặn 90% quảng cáo ở cấp hệ thống, credit HaPhung
-- Shortcut tải video: tải video không logo từ nhiều nền tảng
-
-Quy tắc: nói chuyện thành thật, ko biết thì nói ko biết`;
-
-  const MODELS = [
-    { label: '🌟 Kimi K2 (1T) 🌟',        id: 'moonshotai/kimi-k2-instruct-0905' },
-    { label: 'GPT-OSS-120B', id: 'openai/gpt-oss-120b' },
-    { label: 'Llama 3.3 70B',  id: 'llama-3.3-70b-versatile' },
-    { label: 'Llama 3.1 8B',   id: 'llama-3.1-8b-instant' },
-    { label: 'Llama 4 Scout (16B)',  id: 'meta-llama/llama-4-scout-17b-16e-instruct' },
-    { label: '❌ Qwen3 32B ❌',      id: 'qwen/qwen-3-32b' },
-  ];
-  // ═══════════════════════════════════════════
-
-  let activeIdx = 0, history = [];
-
-  const $       = id => document.getElementById(id);
-  const toggleBtn = $('cw-toggle'), popup = $('cw-popup');
-  const msgs = $('cw-messages'), inp = $('cw-input'), sendBtn = $('cw-send');
-  let emptyEl = $('cw-empty');
-
-  // build model chips
-  MODELS.forEach((m, i) => {
-    const c = document.createElement('div');
-    c.className = 'cw-chip' + (i === 0 ? ' active' : '');
-    c.textContent = m.label;
-    c.onclick = () => {
-      document.querySelectorAll('.cw-chip').forEach(x => x.classList.remove('active'));
-      c.classList.add('active'); 
-      activeIdx = i;
-    };
-    $('cw-modelbar').appendChild(c);
-  });
-
-  toggleBtn.onclick = () => {
-    const open = popup.classList.toggle('visible');
-    toggleBtn.classList.toggle('open', open);
-    if (open) setTimeout(() => inp.focus(), 350);
-  };
-
-  inp.oninput = () => {
-    inp.style.height = 'auto';
-    inp.style.height = Math.min(inp.scrollHeight, 80) + 'px';
-    sendBtn.disabled = !inp.value.trim();
-  };
-
-  inp.onkeydown = e => {
-    if (e.key === 'Enter' && !e.shiftKey) { 
-      e.preventDefault(); 
-      if (!sendBtn.disabled) send(); 
-    }
-  };
-
-  sendBtn.onclick = send;
-
-  function rmEmpty() { 
-    if (emptyEl) { 
-      emptyEl.remove(); 
-      emptyEl = null; 
-    } 
-  }
-
-  function now() { 
-    return new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' }); 
-  }
-
-  function addMsg(role, text) {
-    rmEmpty();
-    const w = document.createElement('div'); 
-    w.className = 'cw-msg ' + role;
-    const b = document.createElement('div'); 
-    b.className = 'cw-bubble'; 
-    b.textContent = text;
-    const t = document.createElement('div'); 
-    t.className = 'cw-time'; 
-    t.textContent = now();
-    w.append(b, t); 
-    msgs.appendChild(w);
-    msgs.scrollTop = msgs.scrollHeight;
-  }
-
-  function showTyping() {
-    rmEmpty();
-    const w = document.createElement('div'); 
-    w.className = 'cw-msg ai'; 
-    w.id = 'cw-typing';
-    const b = document.createElement('div'); 
-    b.className = 'cw-bubble cw-typing';
-    b.innerHTML = '<span></span><span></span><span></span>';
-    w.append(b); 
-    msgs.appendChild(w);
-    msgs.scrollTop = msgs.scrollHeight;
-  }
-
-  function rmTyping() { 
-    const e = $('cw-typing'); 
-    if (e) e.remove(); 
-  }
-
-  async function send() {
-    const txt = inp.value.trim(); 
-    if (!txt) return;
-
-    inp.value = ''; 
-    inp.style.height = 'auto'; 
-    sendBtn.disabled = true;
-
-    addMsg('user', txt);
-    history.push({ role: 'user', content: txt });
-    showTyping();
-
-    const messages = [{ role: 'system', content: SYSTEM_PROMPT }, ...history];
-
-    try {
-      const r = await fetch(WORKER_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          model: MODELS[activeIdx].id, 
-          messages, 
-          max_tokens: 1024, 
-          temperature: 0.75 
-        })
-      });
-
-      const d = await r.json();
-      rmTyping();
-
-      if (!r.ok) {
-        addMsg('ai', '❌ ' + (d?.error?.message || 'Lỗi server ' + r.status));
-        history.pop();
-        return;
-      }
-
-      const rep = d.choices?.[0]?.message?.content || '(không có phản hồi)';
-      history.push({ role: 'assistant', content: rep });
-      addMsg('ai', rep);
-
-    } catch (err) {
-      rmTyping();
-      addMsg('ai', '❌ Mạng lỗi hoặc Worker chưa chạy: ' + err.message);
-      history.pop();
-    }
-  }
-
-})();
-</script>
-            <!-- App Card 2: Cert ZIP -->
-            <div class="app-card fade-in p-5" style="--stagger-order: 2;">
-                <div class="flex flex-col h-full">
-                    <div class="flex justify-center mb-4">
-                        <img src="https://placehold.co/100x100/8b5cf6/ffffff?text=Cert" alt="Cert" class="app-logo">
-                    </div>
-                    
-                    <div class="flex justify-between items-start mb-3">
-                        <h3 class="text-xl font-bold text-purple-300">CERT ZIP</h3>
-                        <span class="size-badge badge">1.2MB</span>
-                    </div>
-                    
-                    <p class="text-slate-400 text-sm mb-4 flex-grow">
-                        <i class="fas fa-certificate text-purple-400 mr-1"></i>
-                        Chứng chỉ cần thiết để ký file IPA, sử dụng kèm với Esign.
-                    </p>
-                    
-                    <div class="flex justify-between items-center mb-5">
-                        <div class="flex items-center text-slate-500 text-sm">
-                            <i class="fas fa-tag mr-1"></i>
-                            <span>Phiên bản: Không xác định</span>
-                        </div>
-                        <div class="text-xs text-amber-400">
-                            <i class="fas fa-exclamation-circle mr-1"></i>
-                            Revoked
-                        </div>
-                    </div>
-                    
-                    <a href="https://khoindvn.io.vn/document/DNS/ESignCert.zip" 
-                       target="_blank" class="download-button py-3 rounded-xl text-center">
-                        <i class="fas fa-file-archive mr-2"></i>
-                        TẢI VỀ
-                    </a>
-                </div>
-            </div>
-            
-            <!-- App Card 3: Delta iOS -->
-            <div class="app-card fade-in p-5" style="--stagger-order: 3;">
-                <div class="flex flex-col h-full">
-                    <div class="flex justify-center mb-4">
-                        <img src="https://placehold.co/100x100/000000/ffffff?text=Delta" alt="Delta" class="app-logo">
-                    </div>
-                    
-                    <div class="flex justify-between items-start mb-3">
-                        <h3 class="text-xl font-bold text-white">Delta iOS</h3>
-                        <span class="size-badge badge">147MB</span>
-                    </div>
-                    
-                    <p class="text-slate-400 text-sm mb-4 flex-grow">
-                        <i class="fas fa-gamepad text-indigo-400 mr-1"></i>
-                        Executor thay thế cho Krnl, có tính năng chống phát hiện (anti-ban).
-                    </p>
-                    
-                    <div class="flex justify-between items-center mb-5">
-                        <div class="flex items-center text-slate-500 text-sm">
-                            <i class="fas fa-tag mr-1"></i>
-                            <span>Phiên bản: 2.704.123</span>
-                        </div>
-                        <div class="text-xs text-emerald-400">
-                            <i class="fas fa-shield-alt mr-1"></i>
-                            Anti-ban
-                        </div>
-                    </div>
-                    
-                    <a href="https://is.gd/vm8jrm" target="_blank" 
-                       class="download-button py-3 rounded-xl text-center" 
-                       style="background: linear-gradient(90deg, #8b5cf6 0%, #7c3aed 100%);">
-                        <i class="fas fa-bolt mr-2"></i>
-                        TẢI TRỰC TIẾP
-                    </a>
-                </div>
-            </div>
-            
-            <!-- App Card 4: KRNL iOS -->
-            <div class="app-card fade-in p-5" style="--stagger-order: 4;">
-                <div class="flex flex-col h-full">
-                    <div class="flex justify-center mb-4">
-                        <img src="https://placehold.co/100x100/9F00FF/ffffff?text=Krnl" alt="Krnl" class="app-logo">
-                    </div>
-                    
-                    <div class="flex justify-between items-start mb-3">
-                        <h3 class="text-xl font-bold text-purple-300">KRNL iOS</h3>
-                        <span class="size-badge badge">147MB</span>
-                    </div>
-                    
-                    <p class="text-slate-400 text-sm mb-4 flex-grow">
-                        <i class="fas fa-exclamation-triangle text-red-400 mr-1"></i>
-                        Executor đã bị Roblox phát hiện, nên sử dụng Delta thay thế.
-                    </p>
-                    
-                    <div class="flex justify-between items-center mb-5">
-                        <div class="flex items-center text-slate-500 text-sm">
-                            <i class="fas fa-tag mr-1"></i>
-                            <span>Phiên bản: unavailable</span>
-                        </div>
-                        <div class="text-xs text-red-400">
-                            <i class="fas fa-skull-crossbones mr-1"></i>
-                            Bị phát hiện
-                        </div>
-                    </div>
-                    
-                    <button class="py-3 rounded-xl text-center bg-slate-700 text-slate-400 font-bold cursor-not-allowed">
-                        <i class="fas fa-ban mr-2"></i>
-                        KHÔNG KHUYẾN NGHỊ
-                    </button>
-                </div>
-            </div>
-            
-            <!-- App Card 5: Brother Hai's Restaurant -->
-            <div class="app-card fade-in p-5" style="--stagger-order: 5;">
-                <div class="flex flex-col h-full">
-                    <div class="flex justify-center mb-4">
-                        <img src="https://placehold.co/100x100/ef4444/ffffff?text=Game" alt="Game" class="app-logo">
-                    </div>
-                    
-                    <div class="flex justify-between items-start mb-3">
-                        <h3 class="text-xl font-bold text-red-300">Brother Hai's Restaurant</h3>
-                        <span class="size-badge badge">1.6GB</span>
-                    </div>
-                    
-                    <p class="text-slate-400 text-sm mb-4 flex-grow">
-                        <i class="fas fa-utensils text-red-400 mr-1"></i>
-                        Game indie Việt Nam về nhà hàng, rất hay, cần Esign để cài đặt.
-                    </p>
-                    
-                    <div class="flex justify-between items-center mb-5">
-                        <div class="flex items-center text-slate-500 text-sm">
-                            <i class="fas fa-tag mr-1"></i>
-                            <span>Phiên bản: 1.0.8</span>
-                        </div>
-                        <div class="text-xs text-amber-400">
-                            <i class="fas fa-star mr-1"></i>
-                            Game Việt
-                        </div>
-                    </div>
-                    
-                    <a href="https://drive.usercontent.google.com/download?id=1DcxAfIyScaDAH8maPtHxJPt4Cccm_zMc&export=download&authuser=0&confirm=t&uuid=2340da82-3811-4bfb-b48a-cec27d6f972d&at=ALWLOp7C9SCnkK-uzlMQaFTMn1eV%3A1763481356496" 
-                       target="_blank" class="download-button py-3 rounded-xl text-center"
-                       style="background: linear-gradient(90deg, #ef4444 0%, #dc2626 100%);">
-                        <i class="fas fa-download mr-2"></i>
-                        CÀI IPA
-                    </a>
-                </div>
-            </div>
-            
-            <!-- App Card 6: DNS Chặn QC -->
-            <div class="app-card fade-in p-5" style="--stagger-order: 6;">
-                <div class="flex flex-col h-full">
-                    <div class="flex justify-center mb-4">
-                        <img src="https://placehold.co/100x100/06b6d4/ffffff?text=DNS" alt="DNS" class="app-logo">
-                    </div>
-                    
-                    <div class="flex justify-between items-start mb-3">
-                        <h3 class="text-xl font-bold text-cyan-300">DNS Chặn Quảng Cáo</h3>
-                        <span class="free-badge badge">Miễn phí</span>
-                    </div>
-                    
-                    <p class="text-slate-400 text-sm mb-4 flex-grow">
-                        <i class="fas fa-filter text-cyan-400 mr-1"></i>
-                        DNS chặn 90% quảng cáo, kể cả quảng cáo khó chịu. Credit: HaPhung.
-                    </p>
-                    
-                    <div class="flex justify-between items-center mb-5">
-                        <div class="flex items-center text-slate-500 text-sm">
-                            <i class="fas fa-tag mr-1"></i>
-                            <span>Phiên bản: Không xác định</span>
-                        </div>
-                        <div class="text-xs text-emerald-400">
-                            <i class="fas fa-ad mr-1"></i>
-                            Chặn QC
-                        </div>
-                    </div>
-                    
-                    <a href="https://www.mediafire.com/file/mp73j9qvevt2hdq" target="_blank" 
-                       class="download-button py-3 rounded-xl text-center"
-                       style="background: linear-gradient(90deg, #06b6d4 0%, #0891b2 100%);">
-                        <i class="fas fa-server mr-2"></i>
-                        CÀI PROFILE
-                    </a>
-                </div>
-            </div>
-            
-            <!-- App Card 7: Shortcut tải video -->
-            <div class="app-card fade-in p-5" style="--stagger-order: 7;">
-                <div class="flex flex-col h-full">
-                    <div class="flex justify-center mb-4">
-                        <img src="https://placehold.co/100x100/10b981/ffffff?text=SC" alt="Shortcut" class="app-logo">
-                    </div>
-                    
-                    <div class="flex justify-between items-start mb-3">
-                        <h3 class="text-xl font-bold text-emerald-300">Shortcut tải video</h3>
-                        <span class="free-badge badge">Miễn phí</span>
-                    </div>
-                    
-                    <p class="text-slate-400 text-sm mb-4 flex-grow">
-                        <i class="fas fa-video text-emerald-400 mr-1"></i>
-                        Tải video không logo (trừ watermark của chủ video) từ nhiều nền tảng.
-                    </p>
-                    
-                    <div class="flex justify-between items-center mb-5">
-                        <div class="flex items-center text-slate-500 text-sm">
-                            <i class="fas fa-tag mr-1"></i>
-                            <span>Phiên bản: Không xác định</span>
-                        </div>
-                        <div class="text-xs text-emerald-400">
-                            <i class="fas fa-magic mr-1"></i>
-                            Tiện ích
-                        </div>
-                    </div>
-                    
-                    <a href="https://www.icloud.com/shortcuts/49017b1dae164a6ca55f4aaeba6810a0" target="_blank" 
-                       class="download-button py-3 rounded-xl text-center"
-                       style="background: linear-gradient(90deg, #10b981 0%, #059669 100%);">
-                        <i class="fas fa-download mr-2"></i>
-                        NHẬN SHORTCUT
-                    </a>
-                </div>
-            </div>
-            
-            <!-- App Card 8: Coming Soon -->
-            <div class="app-card fade-in p-5 coming-soon" style="--stagger-order: 8;">
-                <div class="flex flex-col h-full">
-                    <div class="flex justify-center mb-4">
-                        <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-slate-700 to-slate-800 flex items-center justify-center">
-                            <i class="fas fa-question text-slate-400 text-3xl"></i>
-                        </div>
-                    </div>
-                    
-                    <div class="flex justify-between items-start mb-3">
-                        <h3 class="text-xl font-bold text-slate-300">Ứng dụng bí mật</h3>
-                        <span class="badge" style="background: linear-gradient(90deg, #f59e0b, #d97706); color: white;">
-                            Sắp ra mắt
-                        </span>
-                    </div>
-                    
-                    <p class="text-slate-500 text-sm mb-4 flex-grow">
-                        <i class="fas fa-clock text-amber-400 mr-1"></i>
-                        Sắp ra mắt...
-                    </p>
-                    
-                    <div class="flex justify-between items-center mb-5">
-                        <div class="flex items-center text-slate-500 text-sm">
-                            <i class="fas fa-tag mr-1"></i>
-                            <span>Phiên bản: ???</span>
-                        </div>
-                        <div class="text-xs text-slate-500">
-                            <i class="fas fa-lock mr-1"></i>
-                            Secret
-                        </div>
-                    </div>
-                    
-                    <button class="py-3 rounded-xl text-center bg-slate-800 text-slate-500 font-bold cursor-not-allowed">
-                        <i class="fas fa-hourglass-half mr-2"></i>
-                        COMING SOON
-                    </button>
-                </div>
-            </div>
+        <!-- thông tin bổ sung + credit nhẹ (giữ phong cách) -->
+        <div class="mt-8 text-slate-500 text-xs flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
+            <span><i class="far fa-copyright mr-1"></i>2026 Datlunok</span>
+            <span class="w-1 h-1 bg-slate-600 rounded-full"></span>
+            <span>built with <i class="fas fa-mug-hot text-amber-600/70 mx-0.5"></i> & insomnia</span>
+            <span class="w-1 h-1 bg-slate-600 rounded-full"></span>
+            <span>shutdown notice · v.final</span>
         </div>
         
-        <div class="mt-12 text-center">
-            <div class="glass-effect rounded-2xl p-6 max-w-3xl mx-auto">
-                <h3 class="text-2xl font-bold text-amber-300 mb-4">
-                    <i class="fas fa-lightbulb mr-2"></i>
-                    Mẹo sử dụng
-                </h3>
-                <p class="text-slate-300 mb-3">
-                    <i class="fas fa-check-circle text-emerald-400 mr-2"></i>
-                    Cần cài Esign trước khi cài các file IPA
-                </p>
-                <p class="text-slate-300 mb-3">
-                    <i class="fas fa-check-circle text-emerald-400 mr-2"></i>
-                    Cert ZIP cần được import vào Esign để ký ứng dụng
-                </p>
-                <p class="text-slate-300">
-                    <i class="fas fa-check-circle text-emerald-400 mr-2"></i>
-                    DNS chặn quảng cáo hoạt động ở cấp hệ thống, áp dụng cho toàn bộ thiết bị
-                </p>
+        <!-- nút nhỏ quay về (chỉ để trang trí, không còn app hub) -->
+        <div class="mt-6 flex justify-center">
+            <div class="social-link cursor-default opacity-80">
+                <i class="fas fa-archive"></i>
+                <span>App Hub đã đóng cửa</span>
             </div>
         </div>
-    </main>
 
-    <!-- Footer -->
-    <footer class="mt-12 border-t border-slate-700/50 bg-slate-900/80 py-8">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-6">
-                <div class="bg-gradient-to-r from-red-900/30 to-rose-900/30 border border-red-500/20 rounded-xl p-5 max-w-3xl mx-auto">
-                    <p class="text-red-300 text-xl font-bold mb-2">
-                        <i class="fas fa-exclamation-circle mr-2"></i>
-                        QUAN TRỌNG
-                    </p>
-                    <p class="text-slate-200 text-lg">
-                        Tất cả ứng dụng đều có xác suất cài thành công khác nhau tùy thuộc vào phiên bản iOS và thiết bị của bạn!
-                    </p>
-                </div>
-            </div>
-            
-            <div class="flex flex-col md:flex-row justify-between items-center">
-                <div class="mb-4 md:mb-0">
-                    <p class="text-slate-400">
-                        <i class="fas fa-code text-cyan-400 mr-2"></i>
-                        Thiết kế và phát triển bởi 
-                        <span class="text-cyan-300 font-semibold">Gemini & DeepSeek</span>
-                    </p>
-                    <p class="text-slate-500 text-sm mt-1">
-                        <i class="fas fa-heart text-red-400 mr-1"></i>
-                        Dành cho cộng đồng iOS Việt Nam
-                    </p>
-                </div>
-                
-                <div class="flex space-x-4">
-                    <a href="https://www.tiktok.com/@datlun2k11.3.sub?_r=1&_t=ZS-91V1HbmsxB1" target="_blank" 
-                       class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-300 hover:bg-slate-700 hover:text-white transition-colors">
-                        <i class="fab fa-tiktok"></i>
-                    </a>
-                    
-                    <a href="https://datlun2k11-pixel.github.io/Datlunokapk.github.io/" target="_blank"
-                       class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-300 hover:bg-slate-700 hover:text-white transition-colors">
-                        <i class="fas fa-box-open"></i>
-                    </a>
-                </div>
-            </div>
-            
-            <div class="text-center mt-6 pt-6 border-t border-slate-700/50">
-                <p class="text-slate-500 text-sm">
-                    © 2026 Datlunok App Hub. Tất cả ứng dụng được chia sẻ vì mục đích học tập và trải nghiệm.
-                </p>
-                <p class="text-slate-600 text-xs mt-1">
-                    <i class="fas fa-info-circle mr-1"></i>
-                    Liên hệ nếu có vấn đề về link tải
-                </p>
-            </div>
-        </div>
-    </footer>
+        <!-- hidden but meaningful: "cảm ơn đã hỗ trợ" nhấn mạnh lại -->
+        <p class="text-slate-500 text-sm mt-5 flex items-center justify-center gap-1.5">
+            <i class="fa-regular fa-message"></i> 
+            Cảm ơn, tôi sợ bản quyền=)).
+        </p>
+    </div>
 
+    <!-- subtle animation for loading effect (optional) -->
     <script>
-        // Loading screen
-        window.addEventListener('load', function() {
-            const loader = document.getElementById('loading-screen');
-            setTimeout(() => {
-                loader.style.opacity = '0';
-                loader.style.visibility = 'hidden';
-            }, 800);
-        });
+        (function() {
+            // đảm bảo không còn loading screen, chỉ hiệu ứng nhẹ
+            // thêm class fade đã có từ css, còn đây là micro interaction
+            console.log("⛔️ Datlunok App Hub — Đã shut down. ⛔️");
+            
+            // thêm chút ánh sáng hover cho card (chỉ cosmetic)
+            const card = document.querySelector('.glass-card');
+            if(card) {
+                card.addEventListener('mousemove', function(e) {
+                    // không làm gì nặng, giữ sạch
+                });
+            }
 
-        // Stagger animation for cards
-        document.addEventListener('DOMContentLoaded', function() {
-            const cards = document.querySelectorAll('.fade-in');
-            cards.forEach((card, index) => {
-                card.style.animationDelay = `${index * 0.1}s`;
-            });
-            
-            // Add hover effect to cards
-            const appCards = document.querySelectorAll('.app-card');
-            appCards.forEach(card => {
-                card.addEventListener('mouseenter', function() {
-                    this.style.zIndex = '10';
-                });
-                
-                card.addEventListener('mouseleave', function() {
-                    this.style.zIndex = '1';
-                });
-            });
-            
-            // Add click effect to buttons
-            const buttons = document.querySelectorAll('.download-button');
-            buttons.forEach(button => {
-                button.addEventListener('click', function(e) {
-                    if(this.getAttribute('href') === '' || this.getAttribute('href') === '#') {
-                        e.preventDefault();
-                    }
-                    
-                    // Ripple effect
-                    const ripple = document.createElement('span');
-                    const rect = this.getBoundingClientRect();
-                    const size = Math.max(rect.width, rect.height);
-                    const x = e.clientX - rect.left - size / 2;
-                    const y = e.clientY - rect.top - size / 2;
-                    
-                    ripple.style.cssText = `
-                        position: absolute;
-                        border-radius: 50%;
-                        background: rgba(255, 255, 255, 0.7);
-                        transform: scale(0);
-                        animation: ripple-animation 0.6s linear;
-                        width: ${size}px;
-                        height: ${size}px;
-                        top: ${y}px;
-                        left: ${x}px;
-                        pointer-events: none;
-                    `;
-                    
-                    this.appendChild(ripple);
-                    
-                    setTimeout(() => {
-                        ripple.remove();
-                    }, 600);
-                });
-            });
-            
-            // Add CSS for ripple animation
-            const style = document.createElement('style');
-            style.textContent = `
-                @keyframes ripple-animation {
-                    to {
-                        transform: scale(4);
-                        opacity: 0;
-                    }
-                }
-            `;
-            document.head.appendChild(style);
-        });
+            // có thể thêm hiệu ứng gõ nhẹ? không cần, giữ tinh tế.
+            // chỉ đơn giản hiển thị thông tin chủ web như yêu cầu.
+        })();
     </script>
+
+    <!-- đảm bảo toàn bộ nội dung app cũ đã xoá, chỉ còn shut down + thông tin cá nhân -->
+    <!-- không còn app card, header, footer cũ. chỉ còn card này. -->
 </body>
 </html>
